@@ -12,7 +12,7 @@ import Toys from './pages/Toys'
 import About from './pages/About'
 import Cart from './pages/Cart'
 import ProductDetails from './pages/ProductDetails'
-import Wishlist from './pages/wishlist'
+import Wishlist from './pages/Wishlist'
 import Payment from './pages/Payment'
 
 function App() {
