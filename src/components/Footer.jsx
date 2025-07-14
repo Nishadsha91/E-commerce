@@ -10,7 +10,7 @@ function Footer() {
         <br />
         <br />
         
-      <div className="max-w-6xl mx-auto px-10 grid grid-cols-1 md:grid-cols-2 gap-110">
+      <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8">
 
         <div>
           <h4 className="text-lg font-semibold mb-3">Olea Baby Store</h4>

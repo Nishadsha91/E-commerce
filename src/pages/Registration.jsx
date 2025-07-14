@@ -1,61 +1,119 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
+import * as Yup from 'yup'
 
 function Registration() {
+  const navigate = useNavigate()
 
-    const [inputname,setInputname] = useState('')
-    const [inputemail,setInputEmail] = useState('')
-    const [inputphone,setInputPhone] = useState('')
-    const [inputpassword,setInputPassword] = useState('')
-    const navigate= useNavigate()
+  const initialValues = {
+    name: '',
+    email: '',
+    phone: '',
+    password: ''
+    // we won't ask for role here; we'll add it in onSubmit
+  }
 
-    const Click = async (e)=>{
-        e.preventDefault();
+  const validationSchema = Yup.object({
+    name: Yup.string().min(5, 'At least 5 characters').required('Required'),
+    email: Yup.string().email('Invalid email').required('Required'),
+    phone: Yup.string().matches(/^[0-9]{10}$/, 'Must be 10 digits').required('Required'),
+    password: Yup.string().min(4, 'At least 4 characters').required('Required')
+  })
 
-    const newUser = {
-      name: inputname,
-      email: inputemail,
-      phone: inputphone,
-      password: inputpassword
-    }
-
+  const onSubmit = async (values, { setSubmitting, setFieldError, resetForm }) => {
     try {
-      await axios.post('http://localhost:3000/user', newUser)
-      alert('Registration successful!')
-      navigate('/login')
+      // Check if email already exists
+      const res = await axios.get(`http://localhost:3000/users?email=${values.email}`)
+      if (res.data.length > 0) {
+        setFieldError('email', 'Email already registered')
+        return
+      }
+
+      // Add role: 'user' before sending to backend
+      const newUser = { ...values, role: 'user' }
+
+     await axios.post('http://localhost:3000/users', newUser)
+        alert('Registration successful!')
+
+// ✅ Auto login:
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('currentUser', JSON.stringify(newUser));
+
+      resetForm()
+      navigate('/')
 
     } catch (error) {
-      console.error('Error:', error)
-      alert('Failed to register user')
+      console.error('Registration failed:', error)
+      alert('Something went wrong. Please try again.')
+    } finally {
+      setSubmitting(false)
     }
   }
 
-
-
   return (
-    <>
-    <div  className="flex justify-center items-center min-h-screen bg-gradient-to-br from-[#8e88ff] to-[#48C9B0] font-[Segoe UI]">
-    <form onSubmit={Click} className="bg-white p-10 rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.2)] w-full max-w-md">
-    <h1 className="text-center text-[#333] mb-6 text-xl font-semibold">Sign Up</h1><br />
-    FullName :
-    <input type="text" value={inputname}  placeholder='Enter your name...'  onChange={(e)=> setInputname(e.target.value)} required 
-    className="w-full px-3 py-2 mb-4 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#6C63FF] transition-colors"/><br />
-    Email:
-    <input type="email" value={inputemail} placeholder='Enter your email...' onChange={(e)=> setInputEmail(e.target.value)} required
-    className="w-full px-3 py-2 mb-4 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#6C63FF] transition-colors"/><br />
-    Phone:
-    <input type="text" value={inputphone} placeholder='Enter your number...' onChange={(e)=> setInputPhone(e.target.value)} required
-    className="w-full px-3 py-2 mb-4 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#6C63FF] transition-colors"/><br />
-    Password:
-    <input type="password" value={inputpassword} placeholder='Create a Password...' onChange={(e)=> setInputPassword(e.target.value)} required
-    className="w-full px-3 py-2 mb-4 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#6C63FF] transition-colors" /><br />
-    
-    <button type='submit'  className="w-full py-3 bg-[#6C63FF] text-white text-base rounded-lg hover:bg-[#574fd6] transition-colors" >Sign Up</button>
-    </form>
+    <div className="fixed inset-0 flex justify-center items-center min-h-screen bg-gradient-to-br from-[#8e88ff] to-[#48C9B0] font-[Segoe UI]">
+      <div className="bg-white p-10 rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.2)] w-full max-w-md">
+        <h1 className="text-center text-[#333] mb-6 text-2xl font-semibold">Sign Up</h1>
+
+        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+          {({ isSubmitting }) => (
+            <Form className="space-y-4">
+              <div>
+                FullName :
+                <Field
+                  name="name"
+                  placeholder="Full name..."
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#6C63FF] transition-colors"
+                />
+                <ErrorMessage name="name" component="div" className="text-red-500 text-xs mt-1" />
+              </div>
+
+              <div>
+                Email :
+                <Field
+                  type="email"
+                  name="email"
+                  placeholder="Email..."
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#6C63FF] transition-colors"
+                />
+                <ErrorMessage name="email" component="div" className="text-red-500 text-xs mt-1" />
+              </div>
+
+              <div>
+                Phone :
+                <Field
+                  name="phone"
+                  placeholder="Phone number..."
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#6C63FF] transition-colors"
+                />
+                <ErrorMessage name="phone" component="div" className="text-red-500 text-xs mt-1" />
+              </div>
+
+              <div>
+                Password :
+                <Field
+                  type="password"
+                  name="password"
+                  placeholder="Create password..."
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#6C63FF] transition-colors"
+                />
+                <ErrorMessage name="password" component="div" className="text-red-500 text-xs mt-1" />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full py-3 bg-[#6C63FF] text-white text-base rounded-lg hover:bg-[#574fd6] transition-colors"
+              >
+                {isSubmitting ? 'Registering...' : 'Sign Up'}
+              </button>
+            </Form>
+          )}
+        </Formik>
+      </div>
     </div>
-    </>
-    
   )
 }
 

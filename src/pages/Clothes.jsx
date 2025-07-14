@@ -1,12 +1,43 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+import { Link } from 'react-router-dom'
+import { Heart } from 'lucide-react' // you can use any heart icon you like
 
 function Clothes() {
+  const [products, setProducts] = useState([])
+  const [wishlist, setWishlist] = useState([])
+
+  useEffect(() => {
+    axios.get('http://localhost:3000/products')
+      .then(res => setProducts(res.data))
+      .catch(err => console.error('Error fetching products:', err))
+
+    // load wishlist from localStorage
+    const stored = JSON.parse(localStorage.getItem('wishlist')) || []
+    setWishlist(stored)
+  }, [])
+
+  const addToWishlist = (product) => {
+    let updated
+    if (wishlist.find(item => item.id === product.id)) {
+      // already in wishlist → remove
+      updated = wishlist.filter(item => item.id !== product.id)
+    } else {
+      // add to wishlist
+      updated = [...wishlist, product]
+    }
+    setWishlist(updated)
+    localStorage.setItem('wishlist', JSON.stringify(updated))
+  }
+
+  // split by category
+  const boys = products.filter(p => p.category === 'boys')
+  const girls = products.filter(p => p.category === 'girls')
 
   return (
     <div className="px-4 md:px-12 py-8 space-y-12">
 
-      {/* Hero / Banner */}
+      {/* Hero section */}
       <section className="relative w-full h-60 md:h-[350px] rounded-xl overflow-hidden shadow-md">
         <img 
           src="/baby/Baby1.jpg" 
@@ -23,345 +54,75 @@ function Clothes() {
         </div>
       </section>
 
-      
-
-        
       {/* Boys Clothes */}
       <section>
         <h2 className="text-xl md:text-3xl font-semibold mb-6 text-[#4b2990] text-center">Boys Collection</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4  ">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {boys.map(product => (
+            <div key={product.id} className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2 relative">
+              
+              {/* Wishlist icon */}
+              <button 
+                onClick={() => addToWishlist(product)}
+                className="absolute top-55 right-5 text-[#6C63FF] hover:text-[#4b2990]"
+              >
+                <Heart 
+                  fill={wishlist.find(item => item.id === product.id) ? '#ff0000ff' : 'none'}
+                  stroke="#000000ff"
+                  className="w-7 h-8"
+                />
+              </button>
 
-
-          <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/boy1.jpg" 
-                alt="Boy dress" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-             </div>
-                <h3 className="text-gray-800 text-sm font-medium">Casual Boy Dress</h3>
-               <p className="text-[#6C63FF] font-semibold text-sm">₹299</p>
-               <Link to="/products/1" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div>
-
-          <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/boy2.jpg" 
-                alt="Boy dress 2" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
+              <div className="overflow-hidden rounded">
+                <img 
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <h3 className="text-gray-800 text-sm font-medium">{product.name}</h3>
+              <p className="text-[#6C63FF] font-semibold text-sm">₹{product.price}</p>
+              <Link to={`/products/${product.id}`} className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
             </div>
-            <h3 className="text-gray-800 text-sm font-medium">Printed T-shirt</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹199</p>
-            <Link to="/products/2" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div> 
-
-          <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/boy3.jpg" 
-                alt="Boy dress 2" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-gray-800 text-sm font-medium">Printed T-shirt</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹199</p>
-            <Link to="/products/2" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div> 
-
-          <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/boy4.jpg" 
-                alt="Boy dress 2" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-gray-800 text-sm font-medium">Printed T-shirt</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹199</p>
-            <Link to="/products/2" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div> 
-
-          <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/boy5.jpg" 
-                alt="Boy dress 2" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-gray-800 text-sm font-medium">Printed T-shirt</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹199</p>
-            <Link to="/products/2" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div> 
-
-          <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/boy6.jpg" 
-                alt="Boy dress 2" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-gray-800 text-sm font-medium">Printed T-shirt</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹199</p>
-            <Link to="/products/2" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div> 
-
-          <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/boy7.jpg" 
-                alt="Boy dress 2" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-gray-800 text-sm font-medium">Printed T-shirt</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹199</p>
-            <Link to="/products/2" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div> 
-
-          <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/boy8.jpg" 
-                alt="Boy dress 2" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-gray-800 text-sm font-medium">Printed T-shirt</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹199</p>
-            <Link to="/products/2" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div> 
-
-          <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/boy9.jpg" 
-                alt="Boy dress 2" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-gray-800 text-sm font-medium">Printed T-shirt</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹199</p>
-            <Link to="/products/2" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div> 
-
-          <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/boy10.jpg" 
-                alt="Boy dress 2" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-gray-800 text-sm font-medium">Printed T-shirt</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹199</p>
-            <Link to="/products/2" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div> 
-
-          <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/boy11.jpg" 
-                alt="Boy dress 2" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-gray-800 text-sm font-medium">Printed T-shirt</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹199</p>
-            <Link to="/products/2" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div> 
-
-          <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/boy12.jpg" 
-                alt="Boy dress 2" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-gray-800 text-sm font-medium">Printed T-shirt</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹199</p>
-            <Link to="/products/2" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div> 
-
-
+          ))}
         </div>
       </section>
 
       {/* Girls Clothes */}
       <section>
         <h2 className="text-xl md:text-3xl font-semibold mb-6 text-[#4b2990] text-center">Girls Collection</h2>
-
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {girls.map(product => (
+            <div key={product.id} className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2 relative">
 
-          <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/girl1.jpg" 
-                alt="Girl dress" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
+              {/* Wishlist icon */}
+              <button 
+                onClick={() => addToWishlist(product)}
+                className="absolute top-55 right-5 text-[#6C63FF] hover:text-[#4b2990]"
+              >
+                <Heart 
+                  fill={wishlist.find(item => item.id === product.id) ? '#ff0000ff' : 'none'}
+                  stroke="#000000ff"
+                  className="w-7 h-8"
+                />
+              </button>
+
+              <div className="overflow-hidden rounded">
+                <img 
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <h3 className="text-gray-800 text-sm font-medium">{product.name}</h3>
+              <p className="text-[#6C63FF] font-semibold text-sm">₹{product.price}</p>
+              <Link to={`/products/${product.id}`} className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
             </div>
-            <h3 className="text-gray-800 text-sm font-medium">Floral Dress</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹399</p>
-            <Link to="/products/3" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div>
-
-          <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/girl2.jpg" 
-                alt="Girl dress 2" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-gray-800 text-sm font-medium">Casual Top & Skirt</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹249</p>
-            <Link to="/products/4" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div>
-
-           <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/girl3.jpg" 
-                alt="Girl dress 2" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-gray-800 text-sm font-medium">Casual Top & Skirt</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹249</p>
-            <Link to="/products/4" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div>
-
-           <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/girl4.jpg" 
-                alt="Girl dress 2" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-gray-800 text-sm font-medium">Casual Top & Skirt</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹249</p>
-            <Link to="/products/4" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div>
-
-           <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/girl5.jpg" 
-                alt="Girl dress 2" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-gray-800 text-sm font-medium">Casual Top & Skirt</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹249</p>
-            <Link to="/products/4" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div>
-
-           <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/girl6.jpg" 
-                alt="Girl dress 2" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-gray-800 text-sm font-medium">Casual Top & Skirt</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹249</p>
-            <Link to="/products/4" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div>
-
-           <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/girl7.jpg" 
-                alt="Girl dress 2" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-gray-800 text-sm font-medium">Casual Top & Skirt</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹249</p>
-            <Link to="/products/4" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div>
-
-           <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/girl8.jpg" 
-                alt="Girl dress 2" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-gray-800 text-sm font-medium">Casual Top & Skirt</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹249</p>
-            <Link to="/products/4" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div>
-
-           <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/girl9.jpg" 
-                alt="Girl dress 2" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-gray-800 text-sm font-medium">Casual Top & Skirt</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹249</p>
-            <Link to="/products/4" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div>
-
-           <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/girl10.jpg" 
-                alt="Girl dress 2" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-gray-800 text-sm font-medium">Casual Top & Skirt</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹249</p>
-            <Link to="/products/4" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div>
-
-           <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/girl11.jpg" 
-                alt="Girl dress 2" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-gray-800 text-sm font-medium">Casual Top & Skirt</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹249</p>
-            <Link to="/products/4" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div>
-
-           <div className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2">
-            <div className="overflow-hidden rounded">
-              <img 
-                src="/products/girl12.jpg" 
-                alt="Girl dress 2" 
-                className="w-full h-50 object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-gray-800 text-sm font-medium">Casual Top & Skirt</h3>
-            <p className="text-[#6C63FF] font-semibold text-sm">₹249</p>
-            <Link to="/products/4" className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">View</Link>
-          </div>
-
-          
-
-
+          ))}
         </div>
       </section>
     </div>
-  );
+  )
 }
 
-export default Clothes;
+export default Clothes

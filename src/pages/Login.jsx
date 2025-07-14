@@ -1,68 +1,97 @@
-import axios from 'axios'
-import React, { useState } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
+import * as Yup from 'yup'
 
 function Login() {
-  const [logEmail , setLogEmail] =useState('')
-  const [logPass, setLogPass] = useState('')
   const navigate = useNavigate()
 
-  const Log =async (e)=>{
-    e.preventDefault();
-    try {
+  const initialValues = {
+    email: '',
+    password: ''
+  }
 
-      const res = await axios.get(`http://localhost:3000/user?email=${logEmail}`)
-      if (res.data.length > 0) 
-        {
+  const validationSchema = Yup.object({
+    email: Yup.string().email('Invalid email format').required('Required'),
+    password: Yup.string().required('Required')
+  })
+
+  const onSubmit = async (values, { setSubmitting, setFieldError }) => {
+    try {
+      // Get user by email
+      const res = await axios.get(`http://localhost:3000/users?email=${values.email}`)
+      if (res.data.length > 0) {
         const user = res.data[0]
-          if (user.password === logPass) 
-          {
-          localStorage.setItem('currentUser', JSON.stringify(user))
-          alert('Login successful!')
-          navigate('/home')
-          } else {
-          alert('Invalid password')
-          }
+
+      if (user.password === values.password) {
+        localStorage.setItem('currentUser', JSON.stringify(user));
+
+  // ✅ Add this:
+        localStorage.setItem('isLoggedIn', 'true');
+
+      if (user.role === 'admin') {
+        alert('Admin login successful!');
+        navigate('/admin/dashboard');
       } else {
-        alert('No user found with this Username')
+        alert('Login successful!');
+        navigate('/');
+      }
+        } else {
+          setFieldError('password', 'Incorrect password')
+        }
+      } else {
+        setFieldError('email', 'No account found with this email')
       }
 
-
     } catch (error) {
-      console.error('Error:', error)
-      alert('Login failed. Try again.')
+      console.error('Login failed:', error)
+      alert('Something went wrong. Please try again.')
+    } finally {
+      setSubmitting(false)
     }
   }
 
   return (
-    <>
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-[#a78bfa] to-[#34d399] font-[Segoe UI]">
-      <form onSubmit={Log} className="bg-white p-10 rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.2)] w-full max-w-md">
-      <h1 className="text-center text-[#333] mb-6 text-2xl font-semibold">Login</h1>
-        
-        <input
-          type='email'
-          placeholder='Enter your email..'
-          value={logEmail}
-          onChange={(e) => setLogEmail(e.target.value)}
-          className="w-full px-3 py-2 mb-4 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#6C63FF] transition-colors"
-          required
-        />
-        
-        <input
-          type='password'
-          placeholder='Enter your password..'
-          value={logPass}
-          onChange={(e) => setLogPass(e.target.value)}
-           className="w-full px-3 py-2 mb-4 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#6C63FF] transition-colors"
-          required
-        />
+    <div className="fixed inset-0 flex justify-center items-center min-h-screen bg-gradient-to-br from-[#a78bfa] to-[#34d399] font-[Segoe UI]">
+      <div className="bg-white p-10 rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.2)] w-full max-w-md">
+        <h1 className="text-center text-[#333] mb-6 text-2xl font-semibold">Login</h1>
 
-        <button type='submit'  className="w-full py-3 bg-[#6C63FF] text-white text-base rounded-lg hover:bg-[#574fd6] transition-colors">Login</button>
-      </form>
+        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+          {({ isSubmitting }) => (
+            <Form className="space-y-4">
+              <div>
+                <Field
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email..."
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#6C63FF] transition-colors"
+                />
+                <ErrorMessage name="email" component="div" className="text-red-500 text-xs mt-1" />
+              </div>
+
+              <div>
+                <Field
+                  type="password"
+                  name="password"
+                  placeholder="Enter your password..."
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#6C63FF] transition-colors"
+                />
+                <ErrorMessage name="password" component="div" className="text-red-500 text-xs mt-1" />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full py-3 bg-[#6C63FF] text-white text-base rounded-lg hover:bg-[#574fd6] transition-colors"
+              >
+                {isSubmitting ? 'Logging in...' : 'Login'}
+              </button>
+            </Form>
+          )}
+        </Formik>
+      </div>
     </div>
-
-    </>
   )
 }
 
