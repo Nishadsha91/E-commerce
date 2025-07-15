@@ -1,42 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { ShoppingCart, Heart } from 'lucide-react';
+import { AuthContext } from '../context/AuthContext';
+import { CartWishlistContext } from '../context/CartWishlistContext';
 
 export default function Header() {
+  
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [wishlistCount, setWishlistCount] = useState(0);
-  const [cartCount, setCartCount] = useState(0);
-
-  // On mount, load login status + counts
-  useEffect(() => {
-    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
-    setIsLoggedIn(loggedIn);
-
-    const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-    setWishlistCount(wishlist.length);
-
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCartCount(cart.length);
-  }, []);
-
-  // Optionally: Listen to storage events if you update cart/wishlist elsewhere
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-      setWishlistCount(wishlist.length);
-
-      const cart = JSON.parse(localStorage.getItem("cart")) || [];
-      setCartCount(cart.length);
-    };
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    setIsLoggedIn(false);
-  };
+  const { isLoggedIn, logout } = useContext(AuthContext);
+  const { cartCount, wishlistCount } = useContext(CartWishlistContext);
 
   return (
     <>
@@ -64,7 +36,6 @@ export default function Header() {
         </nav>
 
         <div className="hidden md:flex gap-3 text-[#333] items-center relative">
-          {/* Wishlist icon with count badge */}
           <NavLink to="/wishlist" className="relative hover:text-[#7c3aed]">
             <Heart className="w-7 h-6" />
             {wishlistCount > 0 && (
@@ -73,8 +44,6 @@ export default function Header() {
               </span>
             )}
           </NavLink>
-
-          {/* Cart icon with count badge */}
           <NavLink to="/cart" className="relative hover:text-[#7c3aed]">
             <ShoppingCart className="w-7 h-6" />
             {cartCount > 0 && (
@@ -85,7 +54,7 @@ export default function Header() {
           </NavLink>
 
           {isLoggedIn ? (
-            <button onClick={handleLogout} className="px-3 py-1 rounded-full border border-[#a78bfa] text-[#7c3aed] text-sm font-medium hover:bg-[#f4f0ff] hover:shadow-md transition-all duration-200">
+            <button onClick={logout} className="px-3 py-1 rounded-full border border-[#a78bfa] text-[#7c3aed] text-sm font-medium hover:bg-[#f4f0ff] hover:shadow-md transition-all duration-200">
               Logout
             </button>
           ) : (
@@ -126,9 +95,10 @@ export default function Header() {
             {isLoggedIn ? (
               <button
                 onClick={() => {
-                  handleLogout();
-                  setIsMenuOpen(false);
-                }}
+                    logout();
+                     setIsMenuOpen(false);
+                  }}
+
                 className="block px-2 py-1 text-left text-[#333] hover:text-[#7c3aed]"
 >
                 Logout

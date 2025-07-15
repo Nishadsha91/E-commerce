@@ -2,7 +2,7 @@ import React from 'react'
 
 import { BrowserRouter as Router, Routes,Route,Link } from 'react-router-dom'
 import Home from './pages/Home'
-import Login from './pages/Login'
+import Login from './pages/Login';
 import Registration from './pages/Registration'
 import Header from './components/Header'
 import Products from './pages/Products'
@@ -15,9 +15,11 @@ import ProductDetails from './pages/ProductDetails'
 import Wishlist from './pages/Wishlist'
 import Payment from './pages/Payment'
 
+
 function App() {
   return (
     <div className="flex flex-col min-h-screen">
+      
     <Header/>
     <main className='flex-1'>
       <Routes>
@@ -37,6 +39,7 @@ function App() {
       </Routes>
       </main>
     <Footer/>
+    
     
     </div>
   )

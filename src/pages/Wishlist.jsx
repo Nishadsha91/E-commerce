@@ -1,20 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Trash } from 'lucide-react'
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { Trash } from 'lucide-react';
+import { CartWishlistContext } from '../context/CartWishlistContext';
 
 function Wishlist() {
-  const [wishlist, setWishlist] = useState([])
-
-  useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem('wishlist')) || []
-    setWishlist(stored)
-  }, [])
-
-  const removeFromWishlist = (id) => {
-    const updated = wishlist.filter(item => item.id !== id)
-    setWishlist(updated)
-    localStorage.setItem('wishlist', JSON.stringify(updated))
-  }
+  const { wishlist, removeFromWishlist } = useContext(CartWishlistContext);
 
   return (
     <div className="px-4 md:px-12 py-8 space-y-8">
@@ -46,22 +36,17 @@ function Wishlist() {
               <h3 className="text-gray-800 text-sm font-medium">{item.name}</h3>
               <p className="text-[#6C63FF] font-semibold text-sm">₹{item.price}</p>
 
-              {/* View product */}
               <Link to={`/products/${item.id}`} className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">
                 View Product
               </Link>
 
-              {/* Optional: Add to Cart button */}
-              {/* You can implement addToCart logic here later */}
-              {/* <button className="w-full text-center border border-[#6C63FF] text-[#6C63FF] rounded py-1 text-sm hover:bg-[#f4f0ff] transition-colors mt-1">
-                Add to Cart
-              </button> */}
+              {/* Optional: Add to Cart button later */}
             </div>
           ))}
         </div>
       )}
     </div>
-  )
+  );
 }
 
-export default Wishlist
+export default Wishlist;

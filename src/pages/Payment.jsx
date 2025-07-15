@@ -1,4 +1,3 @@
-// src/pages/Payment.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,16 +9,20 @@ export default function Payment() {
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
     setCartItems(storedCart);
-    const sum = storedCart.reduce((acc, item) => acc + item.price, 0);
+    const sum = storedCart.reduce((acc, item) => acc + item.price * (item.quantity || 1), 0);
     setTotal(sum);
   }, []);
 
   const handlePayment = (e) => {
     e.preventDefault();
-    // fake payment process
+    if (total === 0) {
+      alert("Your cart is empty!");
+      return;
+    }
+    // fake payment
     alert("Payment successful! Thank you for your purchase.");
     localStorage.removeItem('cart'); // clear cart
-    navigate('/'); // go to home or success page
+    navigate('/'); // redirect home or to success page
   };
 
   return (
@@ -34,8 +37,8 @@ export default function Payment() {
           <ul className="space-y-1">
             {cartItems.map((item, idx) => (
               <li key={idx} className="flex justify-between text-gray-700">
-                <span>{item.name}</span>
-                <span>₹{item.price}</span>
+                <span>{item.name} × {item.quantity || 1}</span>
+                <span>₹{item.price * (item.quantity || 1)}</span>
               </li>
             ))}
           </ul>
@@ -52,8 +55,11 @@ export default function Payment() {
         <input type="text" placeholder="Address" required className="w-full border px-3 py-2 rounded" />
         <input type="text" placeholder="Phone Number" required className="w-full border px-3 py-2 rounded" />
         
-       
-        <button type="submit" className="w-full bg-gradient-to-r from-[#a78bfa] to-[#7c3aed] text-white py-2 rounded hover:shadow">
+        <button 
+          type="submit" 
+          className={`w-full bg-gradient-to-r from-[#a78bfa] to-[#7c3aed] text-white py-2 rounded hover:shadow ${total === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={total === 0}
+        >
           Pay ₹{total}
         </button>
       </form>

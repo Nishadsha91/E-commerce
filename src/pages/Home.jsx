@@ -74,6 +74,7 @@ function Home(){
 
 
       <section>
+        
   <h2 className="text-xl md:text-3xl font-semibold mb-15 text-[#4b2990] text-center">Shop by Category</h2>
   <div className="grid grid-cols-2 md:grid-cols-2 gap-4 text-center">
 
@@ -86,11 +87,7 @@ function Home(){
       <img src="/toys/toys.jpg" alt="Toys" className="w-full h-75 object-cover rounded"/>
       <span className="font-medium text-gray-800">Toys</span>
     </Link>
-{/* 
-    <Link to="/accessories" className="bg-white rounded-lg shadow hover:shadow-md p-4 space-y-2">
-      <img src="/toys/access.jpg" alt="Accessories" className="w-full h-62 object-cover rounded"/>
-      <span className="font-medium text-gray-800">Accessories</span>
-    </Link> */}
+
   </div>
 </section>
 

@@ -1,62 +1,60 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
-import * as Yup from 'yup'
+import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { AuthContext } from '../context/AuthContext';
 
 function Login() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const initialValues = {
     email: '',
     password: ''
-  }
+  };
 
   const validationSchema = Yup.object({
     email: Yup.string().email('Invalid email format').required('Required'),
     password: Yup.string().required('Required')
-  })
+  });
 
   const onSubmit = async (values, { setSubmitting, setFieldError }) => {
     try {
-      // Get user by email
-      const res = await axios.get(`http://localhost:3000/users?email=${values.email}`)
+      const res = await axios.get(`http://localhost:3000/users?email=${values.email}`);
       if (res.data.length > 0) {
-        const user = res.data[0]
+        const user = res.data[0];
+        if (user.password === values.password) {
+          // ✅ Save to localStorage
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          // ✅ Update context with user info
+          login(user);
 
-      if (user.password === values.password) {
-        localStorage.setItem('currentUser', JSON.stringify(user));
-
-  // ✅ Add this:
-        localStorage.setItem('isLoggedIn', 'true');
-
-      if (user.role === 'admin') {
-        alert('Admin login successful!');
-        navigate('/admin/dashboard');
-      } else {
-        alert('Login successful!');
-        navigate('/');
-      }
+          if (user.role === 'admin') {
+            alert('Admin login successful!');
+            navigate('/admin/dashboard');
+          } else {
+            alert('Login successful!');
+            navigate('/');
+          }
         } else {
-          setFieldError('password', 'Incorrect password')
+          setFieldError('password', 'Incorrect password');
         }
       } else {
-        setFieldError('email', 'No account found with this email')
+        setFieldError('email', 'No account found with this email');
       }
-
     } catch (error) {
-      console.error('Login failed:', error)
-      alert('Something went wrong. Please try again.')
+      console.error('Login failed:', error);
+      alert('Something went wrong. Please try again.');
     } finally {
-      setSubmitting(false)
+      setSubmitting(false);
     }
-  }
+  };
 
   return (
     <div className="fixed inset-0 flex justify-center items-center min-h-screen bg-gradient-to-br from-[#a78bfa] to-[#34d399] font-[Segoe UI]">
       <div className="bg-white p-10 rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.2)] w-full max-w-md">
         <h1 className="text-center text-[#333] mb-6 text-2xl font-semibold">Login</h1>
-
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
           {({ isSubmitting }) => (
             <Form className="space-y-4">
@@ -69,7 +67,6 @@ function Login() {
                 />
                 <ErrorMessage name="email" component="div" className="text-red-500 text-xs mt-1" />
               </div>
-
               <div>
                 <Field
                   type="password"
@@ -79,7 +76,6 @@ function Login() {
                 />
                 <ErrorMessage name="password" component="div" className="text-red-500 text-xs mt-1" />
               </div>
-
               <button
                 type="submit"
                 disabled={isSubmitting}
@@ -92,7 +88,7 @@ function Login() {
         </Formik>
       </div>
     </div>
-  )
+  );
 }
 
-export default Login
+export default Login;

@@ -1,31 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useContext } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { Heart } from 'lucide-react'
+import { CartWishlistContext } from '../context/CartWishlistContext';
 
 function Toys() {
   const [products, setProducts] = useState([])
-  const [wishlist, setWishlist] = useState([])
+  const { wishlist, addToWishlist } = useContext(CartWishlistContext);
 
   useEffect(() => {
     axios.get('http://localhost:3000/products')
       .then(res => setProducts(res.data))
       .catch(err => console.error('Error fetching products:', err))
-
-    const stored = JSON.parse(localStorage.getItem('wishlist')) || []
-    setWishlist(stored)
-  }, [])
-
-  const addToWishlist = (product) => {
-    let updated
-    if (wishlist.find(item => item.id === product.id)) {
-      updated = wishlist.filter(item => item.id !== product.id)
-    } else {
-      updated = [...wishlist, product]
-    }
-    setWishlist(updated)
-    localStorage.setItem('wishlist', JSON.stringify(updated))
-  }
+  })
 
   // Filter toys only
   const toys = products.filter(p => p.category === 'toys')
@@ -57,10 +44,7 @@ function Toys() {
           {toys.map(product => (
             <div key={product.id} className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2 relative">
               
-              <button 
-                onClick={() => addToWishlist(product)}
-                className="absolute top-55 right-5 text-[#6C63FF] hover:text-[#4b2990]"
-              >
+              <button onClick={() => addToWishlist(product)} className="absolute top-55 right-5 text-[#6C63FF] hover:text-[#4b2990]"   >
                 <Heart 
                   fill={wishlist.find(item => item.id === product.id) ? '#ff0000' : 'none'}
                   stroke="#000000ff"
