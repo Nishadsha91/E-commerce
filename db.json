@@ -62,6 +62,38 @@
       "phone": "1234567890",
       "password": "1234",
       "role": "user"
+    },
+    {
+      "id": "8149",
+      "name": "vishnu",
+      "email": "vis@gmail.com",
+      "phone": "1234567890",
+      "password": "nis123",
+      "role": "user"
+    },
+    {
+      "id": "10a7",
+      "name": "salman",
+      "email": "sal@gmail.com",
+      "phone": "1234567890",
+      "password": "1234",
+      "role": "user"
+    },
+    {
+      "id": "9fb3",
+      "name": "mohammed affan",
+      "email": "afk@gmail.com",
+      "phone": "2134345536",
+      "password": "1234",
+      "role": "user"
+    },
+    {
+      "id": "afb9",
+      "name": "niyas",
+      "email": "niyas@gmail.com",
+      "phone": "1234567890",
+      "password": "1234",
+      "role": "user"
     }
   ],
   "products": [
@@ -292,21 +324,42 @@
   ],
   "cart": [
     {
-      "id": "106",
-      "category": "girls",
-      "name": "Polka Dot Skirt Set",
-      "price": 249,
-      "image": "/products/girl5.jpg",
-      "quantity": 2
+      "id": "6",
+      "category": "boys",
+      "name": "Classic White Baby Tee",
+      "price": 179,
+      "image": "/products/boy6.jpg",
+      "quantity": 1,
+      "userId": "ca02"
     },
     {
-      "id": "3",
+      "id": "6",
       "category": "boys",
-      "name": "Tiny Striped Polo",
-      "price": 249,
-      "image": "/products/boy3.jpg",
-      "quantity": 2
+      "name": "Classic White Baby Tee",
+      "price": 179,
+      "image": "/products/boy6.jpg",
+      "quantity": 1,
+      "userId": "10a7"
+    },
+    {
+      "id": "7",
+      "category": "boys",
+      "name": "Fun Print Sweatshirt",
+      "price": 299,
+      "image": "/products/boy7.jpg",
+      "quantity": 1,
+      "userId": "10a7"
+    },
+    {
+      "id": "2",
+      "category": "boys",
+      "name": "Little Hero Printed Tee",
+      "price": 199,
+      "image": "/products/boy2.jpg",
+      "quantity": 1,
+      "userId": "afb9"
     }
   ],
-  "wishlist": []
+  "wishlist": [],
+  "orders": []
 }

@@ -19,7 +19,7 @@ function ProductDetails() {
 
   if (!product) return <div className="p-8">Loading...</div>;
 
-  // Handler to check login before adding to cart
+  //check login before adding to cart
   const handleAddToCart = () => {
     if (!user) {
       alert('Please login to add items to your cart.');
@@ -29,7 +29,7 @@ function ProductDetails() {
     addToCart(product);
   };
 
-  // Handler to check login before adding to wishlist
+  // check login before adding to wishlist
   const handleAddToWishlist = () => {
     if (!user) {
       alert('Please login to add items to your wishlist.');

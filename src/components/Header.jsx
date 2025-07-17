@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { ShoppingCart, Heart } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 import { CartWishlistContext } from '../context/CartWishlistContext';
@@ -8,7 +8,16 @@ export default function Header() {
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isLoggedIn, logout } = useContext(AuthContext);
-  const { cartCount, wishlistCount } = useContext(CartWishlistContext);
+  const { cartCount, wishlistCount ,clearWishlist, clearCartState} = useContext(CartWishlistContext);
+  const navigate =useNavigate()
+
+  const handleLogout = () => {
+    logout();             // remove user info from localStorage
+    clearWishlist();      // clear wishlist localStorage & state
+    clearCartState();     // reset local cart count
+    navigate('/login');   // redirect to login page
+  };
+
 
   return (
     <>
@@ -54,7 +63,7 @@ export default function Header() {
           </NavLink>
 
           {isLoggedIn ? (
-            <button onClick={logout} className="px-3 py-1 rounded-full border border-[#a78bfa] text-[#7c3aed] text-sm font-medium hover:bg-[#f4f0ff] hover:shadow-md transition-all duration-200">
+            <button onClick={handleLogout} className="px-3 py-1 rounded-full border border-[#a78bfa] text-[#7c3aed] text-sm font-medium hover:bg-[#f4f0ff] hover:shadow-md transition-all duration-200">
               Logout
             </button>
           ) : (
@@ -91,22 +100,36 @@ export default function Header() {
           <NavLink to="/cart" onClick={() => setIsMenuOpen(false)} className="block px-2 py-1 text-[#333] hover:text-[#7c3aed]">Cart</NavLink>
           <NavLink to="/about" onClick={() => setIsMenuOpen(false)} className="block px-2 py-1 text-[#333] hover:text-[#7c3aed]">About</NavLink>
 
-          <div className="flex flex-col gap-1 pt-2 border-t">
+         <div className="flex flex-col gap-1 pt-2 border-t">
             {isLoggedIn ? (
               <button
                 onClick={() => {
-                    logout();
-                     setIsMenuOpen(false);
-                  }}
-
+                  logout();
+                  clearCartState();
+                  clearWishlist();
+                  setIsMenuOpen(false);
+                  navigate('/login')
+                }}
                 className="block px-2 py-1 text-left text-[#333] hover:text-[#7c3aed]"
->
+              >
                 Logout
               </button>
             ) : (
               <>
-                <NavLink to="/login" onClick={() => setIsMenuOpen(false)} className="block px-2 py-1 text-[#333] hover:text-[#7c3aed]">Login</NavLink>
-                <NavLink to="/registration" onClick={() => setIsMenuOpen(false)} className="block px-2 py-1 text-[#333] hover:text-[#7c3aed]">Sign Up</NavLink>
+                <NavLink
+                  to="/login"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block px-2 py-1 text-[#333] hover:text-[#7c3aed]"
+                >
+                  Login
+                </NavLink>
+                <NavLink
+                  to="/registration"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block px-2 py-1 text-[#333] hover:text-[#7c3aed]"
+                >
+                  Sign Up
+                </NavLink>
               </>
             )}
           </div>
@@ -115,4 +138,5 @@ export default function Header() {
     </>
   );
 }
+
 

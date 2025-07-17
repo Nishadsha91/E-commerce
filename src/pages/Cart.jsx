@@ -1,22 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { AuthContext } from '../context/AuthContext';
 
 function Cart() {
+  const {user} = useContext(AuthContext)
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    loadCart();
-  }, []);
-
-  const loadCart = async () => {
-    try {
-      const res = await axios.get('http://localhost:3000/cart');
-      setCart(res.data);
-    } catch (err) {
-      console.error('Failed to load cart', err);
+    if (user) {
+      axios.get(`http://localhost:3000/cart?userId=${user.id}`)
+        .then(res => setCart(res.data))
+        .catch(err => console.error(err));
+    } else {
+      setCart([]); // logout: clear items
     }
-  };
+  }, [user]);
+
+  if (!user) {
+    return <div className="text-center mt-10 text-gray-600">You are not logged in. Please login to see your cart.</div>;
+  }
+  
 
   const removeItem = async (id) => {
     try {
@@ -27,33 +31,41 @@ function Cart() {
     }
   };
 
-  const increaseQty = async (id) => {
-    const item = cart.find(i => i.id === id);
-    if (!item) return;
-    const newQty = item.quantity + 1;
+  const updateQty = async (id, newQty) => {
+  if (newQty < 1) return;
 
-    try {
-      await axios.patch(`http://localhost:3000/cart/${id}`, { quantity: newQty });
-      setCart(prev => prev.map(i => i.id === id ? { ...i, quantity: newQty } : i));
-    } catch (err) {
-      console.error('Increase qty failed', err);
+  try {
+    console.log(`PATCH /cart/${id} -> quantity:`, newQty);
+    const res = await axios.patch(`http://localhost:3000/cart/${id}`, { quantity: newQty });
+    console.log('Server responded:', res.data);
+    setCart(prev => prev.map(item => item.id === id ? { ...item, quantity: newQty } : item));
+  } catch (err) {
+    console.error('Update qty failed:', err);
+    // Prevent reload in error
+    return false;
+  }
+};
+
+  const increaseQty = (id) => {
+  try {
+    const item = cart.find(i => i.id === id);
+    if (item) {
+      const newQty = (item.quantity || 1) + 1;
+      console.log('Increasing quantity:', item.id, 'to', newQty);
+      updateQty(item.id, newQty);
     }
+  } catch (err) {
+    console.error('Error in increaseQty:', err);
+  }
+};
+
+
+  const decreaseQty = (id) => {
+    const item = cart.find(i => i.id === id);
+    if (item && (item.quantity || 1) > 1) updateQty(id, item.quantity - 1);
   };
 
-  const decreaseQty = async (id) => {
-    const item = cart.find(i => i.id === id);
-    if (!item || item.quantity <= 1) return;
-    const newQty = item.quantity - 1;
-
-    try {
-      await axios.patch(`http://localhost:3000/cart/${id}`, { quantity: newQty });
-      setCart(prev => prev.map(i => i.id === id ? { ...i, quantity: newQty } : i));
-    } catch (err) {
-      console.error('Decrease qty failed', err);
-    }
-  };
-
-  const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const totalAmount = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
 
   if (cart.length === 0) {
     return <div className="p-8 text-center text-gray-600">Your cart is empty</div>;
@@ -73,11 +85,11 @@ function Cart() {
             </div>
           </div>
           <div className="flex items-center space-x-2">
-            <button onClick={() => decreaseQty(item.id)} className="px-2 py-1 border rounded">-</button>
-            <span>{item.quantity}</span>
-            <button onClick={() => increaseQty(item.id)} className="px-2 py-1 border rounded">+</button>
+            <button type="button" onClick={() => decreaseQty(item.id)} className="px-2 py-1 border rounded">-</button>
+            <span>{item.quantity || 1}</span>
+            <button type="button" onClick={() => increaseQty(item.id)} className="px-2 py-1 border rounded">+</button>
           </div>
-          <button onClick={() => removeItem(item.id)} className="text-red-500 hover:text-red-700">
+          <button type="button" onClick={() => removeItem(item.id)} className="text-red-500 hover:text-red-700">
             Remove
           </button>
         </div>

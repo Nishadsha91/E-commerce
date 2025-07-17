@@ -1,21 +1,20 @@
-import React, { useEffect, useState,useContext } from 'react'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
-import { Heart } from 'lucide-react'
+import React, { useEffect, useState, useContext } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { Heart } from 'lucide-react';
 import { CartWishlistContext } from '../context/CartWishlistContext';
 
 function Toys() {
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([]);
   const { wishlist, addToWishlist } = useContext(CartWishlistContext);
 
   useEffect(() => {
     axios.get('http://localhost:3000/products')
       .then(res => setProducts(res.data))
-      .catch(err => console.error('Error fetching products:', err))
-  })
+      .catch(err => console.error('Error fetching products:', err));
+  }, []); //  add [] to run only once
 
-  // Filter toys only
-  const toys = products.filter(p => p.category === 'toys')
+  const toys = products.filter(p => p.category === 'toys');
 
   return (
     <div className="px-4 md:px-12 py-8 space-y-12">
@@ -43,12 +42,15 @@ function Toys() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {toys.map(product => (
             <div key={product.id} className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2 relative">
-              
-              <button onClick={() => addToWishlist(product)} className="absolute top-55 right-5 text-[#6C63FF] hover:text-[#4b2990]"   >
+
+              <button 
+                onClick={() => addToWishlist(product)} 
+                className="absolute top-57 right-6 text-[#6C63FF] hover:text-[#4b2990]"
+              >
                 <Heart 
                   fill={wishlist.find(item => item.id === product.id) ? '#ff0000' : 'none'}
-                  stroke="#000000ff"
-                  className="w-7 h-8"
+                  stroke="#000"
+                  className="w-6 h-6"
                 />
               </button>
 
@@ -61,7 +63,10 @@ function Toys() {
               </div>
               <h3 className="text-gray-800 text-sm font-medium">{product.name}</h3>
               <p className="text-[#6C63FF] font-semibold text-sm">₹{product.price}</p>
-              <Link to={`/products/${product.id}`} className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors">
+              <Link 
+                to={`/products/${product.id}`} 
+                className="block text-center bg-[#6C63FF] text-white rounded py-1 text-sm hover:bg-[#574fd6] transition-colors"
+              >
                 View
               </Link>
             </div>
@@ -69,7 +74,7 @@ function Toys() {
         </div>
       </section>
     </div>
-  )
+  );
 }
 
-export default Toys
+export default Toys;

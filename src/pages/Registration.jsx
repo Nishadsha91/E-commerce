@@ -12,7 +12,7 @@ function Registration() {
     email: '',
     phone: '',
     password: ''
-    // we won't ask for role here; we'll add it in onSubmit
+    
   }
 
   const validationSchema = Yup.object({
@@ -36,13 +36,12 @@ function Registration() {
 
      await axios.post('http://localhost:3000/users', newUser)
         alert('Registration successful!')
-
-// ✅ Auto login:
       localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('currentUser', JSON.stringify(newUser));
+      localStorage.setItem('user', JSON.stringify(newUser));
+ 
 
       resetForm()
-      navigate('/')
+      navigate('/login')
 
     } catch (error) {
       console.error('Registration failed:', error)

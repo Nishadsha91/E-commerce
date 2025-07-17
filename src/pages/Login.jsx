@@ -1,3 +1,4 @@
+
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -9,10 +10,7 @@ function Login() {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
 
-  const initialValues = {
-    email: '',
-    password: ''
-  };
+  const initialValues = { email: '', password: '' };
 
   const validationSchema = Yup.object({
     email: Yup.string().email('Invalid email format').required('Required'),
@@ -25,11 +23,7 @@ function Login() {
       if (res.data.length > 0) {
         const user = res.data[0];
         if (user.password === values.password) {
-          // ✅ Save to localStorage
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          // ✅ Update context with user info
-          login(user);
-
+          login(user);  // updates context + localStorage
           if (user.role === 'admin') {
             alert('Admin login successful!');
             navigate('/admin/dashboard');

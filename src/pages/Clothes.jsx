@@ -6,13 +6,13 @@ import { CartWishlistContext } from '../context/CartWishlistContext';
 
 function Clothes() {
   const [products, setProducts] = useState([]);
-  const { wishlist=[], addToWishlist } = useContext(CartWishlistContext);
+  const { wishlist, addToWishlist } = useContext(CartWishlistContext);
 
   useEffect(() => {
     axios.get('http://localhost:3000/products')
       .then(res => setProducts(res.data))
       .catch(err => console.error('Error fetching products:', err));
-  }, []);
+  }, []); //  add [] to run only once
 
   const boys = products.filter(p => p.category === 'boys');
   const girls = products.filter(p => p.category === 'girls');
@@ -32,7 +32,7 @@ function Clothes() {
         </div>
       </section>
 
-      {/* Boys Clothes */}
+      {/* Boys Collection */}
       <section>
         <h2 className="text-xl md:text-3xl font-semibold mb-6 text-[#4b2990] text-center">Boys Collection</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -40,13 +40,12 @@ function Clothes() {
             <div key={product.id} className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2 relative">
               <button 
                 onClick={() => addToWishlist(product)}
-                className="absolute top-55 right-5 text-[#6C63FF] hover:text-[#4b2990]"
+                className="absolute top-57 right-6 text-[#6C63FF] hover:text-[#4b2990]"
               >
                 <Heart 
-                  fill={wishlist.find(item => item.id === product.id) ? '#ff0000ff' : 'none'}
-                  
-                  stroke="#000000ff"
-                  className="w-7 h-8"
+                  fill={wishlist.find(item => item.id === product.id) ? '#ff0000' : 'none'}
+                  stroke="#000"
+                  className="w-6 h-6"
                 />
               </button>
               <div className="overflow-hidden rounded">
@@ -64,7 +63,7 @@ function Clothes() {
         </div>
       </section>
 
-      {/* Girls Clothes */}
+      {/* Girls Collection */}
       <section>
         <h2 className="text-xl md:text-3xl font-semibold mb-6 text-[#4b2990] text-center">Girls Collection</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -72,12 +71,12 @@ function Clothes() {
             <div key={product.id} className="bg-white rounded-lg shadow hover:shadow-lg p-3 space-y-2 relative">
               <button 
                 onClick={() => addToWishlist(product)}
-                className="absolute top-55 right-5 text-[#6C63FF] hover:text-[#4b2990]"
+                className="absolute top-57 right-6 text-[#6C63FF] hover:text-[#4b2990]"
               >
                 <Heart 
-                  fill={wishlist.find(item => item.id === product.id) ? '#ff0000ff' : 'none'}
-                  stroke="#000000ff"
-                  className="w-7 h-8"
+                  fill={wishlist.find(item => item.id === product.id) ? '#ff0000' : 'none'}
+                  stroke="#000"
+                  className="w-6 h-6"
                 />
               </button>
               <div className="overflow-hidden rounded">

@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 function Products() {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('all'); // boys, girls, toys, etc.
-  const [sortOrder, setSortOrder] = useState(''); // asc, desc
+  const [category, setCategory] = useState('all');
+  const [sortOrder, setSortOrder] = useState(''); 
 
   useEffect(() => {
     axios.get('http://localhost:3000/products')
@@ -14,7 +14,7 @@ function Products() {
       .catch(err => console.error('Error fetching products:', err));
   }, []);
 
-  //  Filter + search + sort (with useMemo for performance)
+  //  Filter + search + sort 
   const filteredProducts = useMemo(() => {
     return products
       .filter(p => (category === 'all' || p.category === category) && p.name.toLowerCase().includes(search.toLowerCase()))
@@ -52,7 +52,7 @@ function Products() {
           <option value="boys">Boys Clothes</option>
           <option value="girls">Girls Clothes</option>
           <option value="toys">Toys</option>
-          {/* Add more categories if needed */}
+         
         </select>
 
         <select

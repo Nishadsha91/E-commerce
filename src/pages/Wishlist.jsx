@@ -40,7 +40,7 @@ function Wishlist() {
                 View Product
               </Link>
 
-              {/* Optional: Add to Cart button later */}
+              
             </div>
           ))}
         </div>
