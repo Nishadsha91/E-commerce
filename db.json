@@ -1,346 +1,229 @@
 {
   "users": [
     {
-      "id": "835a",
-      "name": "Nishad",
-      "email": "nis@gmail.com",
-      "phone": "1233456777",
-      "password": "nsidiw",
-      "role": "user"
-    },
-    {
-      "id": "b4d3",
-      "name": "sabeeh",
-      "email": "sabi@gmail.com",
-      "phone": "1234567890",
-      "password": "sabi123",
-      "role": "user"
-    },
-    {
-      "id": "ca02",
-      "name": "akhil",
-      "email": "akhi@gmail.com",
-      "phone": "1234567899",
-      "password": "1234",
-      "role": "user"
-    },
-    {
       "id": "5f38",
-      "name": "admin",
+      "name": "Nishad",
       "email": "admin@gmail.com",
       "phone": "7356206455",
       "password": "nish123",
-      "role": "admin"
+      "role": "admin",
+      "status": "Active"
     },
     {
-      "id": "9dc6",
+      "id": "af37",
       "name": "nishad",
-      "email": "nish@gmail",
-      "phone": "1234567890",
-      "password": "0987"
+      "email": "nish@gmail.com",
+      "phone": "7356206455",
+      "password": "123456",
+      "terms": true,
+      "role": "user",
+      "status": "Active"
     },
     {
-      "id": "9574",
-      "name": "ajmal",
-      "email": "aju@gmail",
-      "phone": "1234567890",
-      "password": "aju123",
-      "role": "user"
-    },
-    {
-      "id": "28e1",
-      "name": "affan",
-      "email": "aff@gmail.com",
-      "phone": "1234567890",
-      "password": "1234",
-      "role": "user"
-    },
-    {
-      "id": "30d0",
-      "name": "rizal",
-      "email": "rizu@gmail.com",
-      "phone": "1234567890",
-      "password": "1234",
-      "role": "user"
-    },
-    {
-      "id": "8149",
-      "name": "vishnu",
-      "email": "vis@gmail.com",
-      "phone": "1234567890",
-      "password": "nis123",
-      "role": "user"
-    },
-    {
-      "id": "10a7",
-      "name": "salman",
-      "email": "sal@gmail.com",
-      "phone": "1234567890",
-      "password": "1234",
-      "role": "user"
-    },
-    {
-      "id": "9fb3",
-      "name": "mohammed affan",
-      "email": "afk@gmail.com",
-      "phone": "2134345536",
-      "password": "1234",
-      "role": "user"
-    },
-    {
-      "id": "afb9",
-      "name": "niyas",
-      "email": "niyas@gmail.com",
-      "phone": "1234567890",
-      "password": "1234",
+      "id": "c092",
+      "name": "mubarak",
+      "email": "mub@gmail.com",
+      "phone": "7476787980",
+      "password": "Nis123",
+      "terms": true,
       "role": "user"
     }
   ],
   "products": [
     {
-      "id": "1",
+      "id": "b001",
       "category": "boys",
-      "name": "Baby Denim Shirt",
+      "name": "Organic Cotton Hoodie - Blue",
+      "price": 599,
+      "image": "/products/swim-trunks.jpg",
+      "description": "Soft organic cotton hoodie with kangaroo pocket"
+    },
+    {
+      "id": "b002",
+      "category": "boys",
+      "name": "Striped Polo Set - Navy/White",
+      "price": 449,
+      "image": "/products/striped-polo-set.jpg",
+      "description": "2-piece polo and shorts set for smart casual wear"
+    },
+    {
+      "id": "b003",
+      "category": "boys",
+      "name": "Denim Jacket with Patches",
+      "price": 799,
+      "image": "/products/denim-jacket.jpg",
+      "description": "Lightweight denim jacket with fun embroidered patches"
+    },
+    {
+      "id": "b004",
+      "category": "boys",
+      "name": "Cargo Joggers - Olive Green",
+      "price": 499,
+      "image": "/products/cargo-joggers.jpg",
+      "description": "Stylish joggers with multiple pockets"
+    },
+    {
+      "id": "b005",
+      "category": "boys",
+      "name": "Dinosaur Print T-Shirt",
       "price": 299,
-      "image": "/products/boy1.jpg"
+      "image": "/products/dino-tee.jpg",
+      "description": "100% cotton tee with fun dinosaur graphic"
     },
     {
-      "id": "2",
+      "id": "b006",
       "category": "boys",
-      "name": "Little Hero Printed Tee",
-      "price": 199,
-      "image": "/products/boy2.jpg"
-    },
-    {
-      "id": "3",
-      "category": "boys",
-      "name": "Tiny Striped Polo",
-      "price": 249,
-      "image": "/products/boy3.jpg"
-    },
-    {
-      "id": "4",
-      "category": "boys",
-      "name": "Soft Cotton Hoodie",
+      "name": "Swim Trunks - Shark Print",
       "price": 349,
-      "image": "/products/boy4.jpg"
+      "image": "/products/kids-blue-hoodie.jpg",
+      "description": "Quick-dry swimwear with UPF 50+ protection"
     },
     {
-      "id": "5",
+      "id": "b007",
       "category": "boys",
-      "name": "Comfy Baby Shorts",
-      "price": 199,
-      "image": "/products/boy5.jpg"
+      "name": "Flannel Shirt - Red/Black",
+      "price": 549,
+      "image": "/products/flannel-shirt.jpg",
+      "description": "Soft brushed cotton flannel shirt"
     },
     {
-      "id": "6",
+      "id": "b008",
       "category": "boys",
-      "name": "Classic White Baby Tee",
-      "price": 179,
-      "image": "/products/boy6.jpg"
+      "name": "Athletic Sneakers - Black",
+      "price": 899,
+      "image": "/products/athletic-sneakers.jpg",
+      "description": "Lightweight sneakers with non-slip soles"
     },
     {
-      "id": "7",
-      "category": "boys",
-      "name": "Fun Print Sweatshirt",
-      "price": 299,
-      "image": "/products/boy7.jpg"
+      "id": "g001",
+      "category": "girls",
+      "name": "Tulle Princess Dress - Pink",
+      "price": 899,
+      "image": "/products/princess-dress.jpg",
+      "description": "Sparkly tulle dress with satin ribbon"
     },
     {
-      "id": "8",
-      "category": "boys",
-      "name": "Mini Plaid Shirt",
-      "price": 279,
-      "image": "/products/boy8.jpg"
+      "id": "g002",
+      "category": "girls",
+      "name": "Floral Sundress - Yellow",
+      "price": 649,
+      "image": "/products/floral-sundress.jpg",
+      "description": "Lightweight cotton dress with smocked top"
     },
     {
-      "id": "9",
-      "category": "boys",
-      "name": "Little Denim Jacket",
+      "id": "g003",
+      "category": "girls",
+      "name": "Unicorn Hoodie - Lavender",
+      "price": 599,
+      "image": "/products/unicorn-hoodie.jpg",
+      "description": "Cozy fleece hoodie with unicorn horn hood"
+    },
+    {
+      "id": "g004",
+      "category": "girls",
+      "name": "Leopard Print Leggings",
       "price": 399,
-      "image": "/products/boy9.jpg"
+      "image": "/products/leggings.jpg",
+      "description": "Stretchy leggings with fun animal print"
     },
     {
-      "id": "10",
-      "category": "boys",
-      "name": "Cute Jogger Pants",
-      "price": 249,
-      "image": "/products/boy10.jpg"
-    },
-    {
-      "id": "11",
-      "category": "boys",
-      "name": "Tiny Checked Shirt",
-      "price": 259,
-      "image": "/products/boy11.jpg"
-    },
-    {
-      "id": "12",
-      "category": "boys",
-      "name": "Sleeveless Tank for Boys",
-      "price": 149,
-      "image": "/products/boy12.jpg"
-    },
-    {
-      "id": "101",
+      "id": "g005",
       "category": "girls",
-      "name": "Floral Princess Dress",
+      "name": "Party Tutu Skirt - Silver",
+      "price": 499,
+      "image": "/products/tutu-skirt.jpg",
+      "description": "Sparkly layered tutu for special occasions"
+    },
+    {
+      "id": "g006",
+      "category": "girls",
+      "name": "Strawberry Print Pajama Set",
+      "price": 449,
+      "image": "/products/pajama-set.jpg",
+      "description": "Organic cotton PJ set with matching top and bottom"
+    },
+    {
+      "id": "g007",
+      "category": "girls",
+      "name": "Mary Jane Shoes - Red",
+      "price": 799,
+      "image": "/products/mary-janes.jpg",
+      "description": "Classic shoes with comfortable cushioned soles"
+    },
+    {
+      "id": "g008",
+      "category": "girls",
+      "name": "Personalized Denim Jacket",
+      "price": 999,
+      "image": "/products/denim.jpg",
+      "description": "Customizable jacket with embroidered name"
+    },
+    {
+      "id": "t001",
+      "category": "toys",
+      "name": "Montessori Wooden Cube",
+      "price": 1299,
+      "image": "/toys/activity-cube.jpg",
+      "description": "5-sided educational toy with beads, gears, and shapes"
+    },
+    {
+      "id": "t002",
+      "category": "toys",
+      "name": "Interactive Learning Tablet",
+      "price": 899,
+      "image": "/toys/learning-tablet.jpg",
+      "description": "Child-safe tablet with ABCs, numbers, and songs"
+    },
+    {
+      "id": "t003",
+      "category": "toys",
+      "name": "Plush Rocking Horse",
+      "price": 1499,
+      "image": "/toys/rocking-horse.jpg",
+      "description": "Soft plush rocking horse with safety handles"
+    },
+    {
+      "id": "t004",
+      "category": "toys",
+      "name": "Building Blocks Set (102pc)",
+      "price": 799,
+      "image": "/toys/building-blocks.jpg",
+      "description": "Colorful blocks with storage bag"
+    },
+    {
+      "id": "t005",
+      "category": "toys",
+      "name": "Musical Instrument Set",
+      "price": 599,
+      "image": "/toys/instrument-set.jpg",
+      "description": "Includes xylophone, maracas, tambourine, and more"
+    },
+    {
+      "id": "t006",
+      "category": "toys",
+      "name": "Pull-Along Wooden Duck",
+      "price": 499,
+      "image": "/toys/pull-duck.jpg",
+      "description": "Classic wooden toy that waddles when pulled"
+    },
+    {
+      "id": "t007",
+      "category": "toys",
+      "name": "Stacking Rainbow Rings",
       "price": 399,
-      "image": "/products/girl1.jpg"
+      "image": "/toys/rainbow-stacker.jpg",
+      "description": "Wooden rainbow for color recognition and motor skills"
     },
     {
-      "id": "102",
-      "category": "girls",
-      "name": "Baby Pink Party Frock",
-      "price": 249,
-      "image": "/products/girl1.jpg"
-    },
-    {
-      "id": "103",
-      "category": "girls",
-      "name": "Cotton Top & Skirt Set",
-      "price": 249,
-      "image": "/products/girl2.jpg"
-    },
-    {
-      "id": "104",
-      "category": "girls",
-      "name": "Sweetheart Ruffle Dress",
-      "price": 279,
-      "image": "/products/girl3.jpg"
-    },
-    {
-      "id": "105",
-      "category": "girls",
-      "name": "Little Bow Tunic",
-      "price": 229,
-      "image": "/products/girl4.jpg"
-    },
-    {
-      "id": "106",
-      "category": "girls",
-      "name": "Polka Dot Skirt Set",
-      "price": 249,
-      "image": "/products/girl5.jpg"
-    },
-    {
-      "id": "107",
-      "category": "girls",
-      "name": "Frilly Party Dress",
-      "price": 299,
-      "image": "/products/girl6.jpg"
-    },
-    {
-      "id": "108",
-      "category": "girls",
-      "name": "Soft Cotton Day Dress",
-      "price": 229,
-      "image": "/products/girl7.jpg"
-    },
-    {
-      "id": "109",
-      "category": "girls",
-      "name": "Peach Floral Dress",
-      "price": 259,
-      "image": "/products/girl8.jpg"
-    },
-    {
-      "id": "110",
-      "category": "girls",
-      "name": "Cute Unicorn Print Top",
-      "price": 199,
-      "image": "/products/girl9.jpg"
-    },
-    {
-      "id": "111",
-      "category": "girls",
-      "name": "Tiny Bow Cotton Frock",
-      "price": 249,
-      "image": "/products/girl10.jpg"
-    },
-    {
-      "id": "112",
-      "category": "girls",
-      "name": "Elegant Lace Dress",
-      "price": 299,
-      "image": "/products/girl11.jpg"
-    },
-    {
-      "id": "13",
+      "id": "t008",
       "category": "toys",
-      "name": "Soft Plush Teddy",
-      "price": 299,
-      "image": "/toys/toy1.jpg"
-    },
-    {
-      "id": "14",
-      "category": "toys",
-      "name": "Colorful Stacking Rings",
-      "price": 199,
-      "image": "/toys/toy2.jpg"
-    },
-    {
-      "id": "15",
-      "category": "toys",
-      "name": "Baby Rattle Set",
-      "price": 199,
-      "image": "/toys/toy3.jpg"
-    },
-    {
-      "id": "16",
-      "category": "toys",
-      "name": "Cute Elephant Plush",
-      "price": 199,
-      "image": "/toys/toy4.jpg"
-    },
-    {
-      "id": "17",
-      "category": "toys",
-      "name": "Wooden Puzzle Blocks",
-      "price": 199,
-      "image": "/toys/toy5.jpg"
-    },
-    {
-      "id": "18",
-      "category": "toys",
-      "name": "Tiny Bunny Soft Toy",
-      "price": 199,
-      "image": "/toys/toy6.jpg"
-    },
-    {
-      "id": "19",
-      "category": "toys",
-      "name": "Musical Learning Toy",
-      "price": 199,
-      "image": "/toys/toy7.jpg"
-    },
-    {
-      "id": "20",
-      "category": "toys",
-      "name": "Colorful Baby Teether",
-      "price": 199,
-      "image": "/toys/toy8.jpg"
+      "name": "Soft Book - Jungle Animals",
+      "price": 349,
+      "image": "/toys/soft-book.jpg",
+      "description": "Crinkly fabric book with sensory elements"
     }
   ],
   "cart": [
-    {
-      "id": "6",
-      "category": "boys",
-      "name": "Classic White Baby Tee",
-      "price": 179,
-      "image": "/products/boy6.jpg",
-      "quantity": 1,
-      "userId": "ca02"
-    },
-    {
-      "id": "6",
-      "category": "boys",
-      "name": "Classic White Baby Tee",
-      "price": 179,
-      "image": "/products/boy6.jpg",
-      "quantity": 1,
-      "userId": "10a7"
-    },
     {
       "id": "7",
       "category": "boys",
@@ -351,15 +234,198 @@
       "userId": "10a7"
     },
     {
-      "id": "2",
-      "category": "boys",
-      "name": "Little Hero Printed Tee",
-      "price": 199,
-      "image": "/products/boy2.jpg",
+      "id": "t002",
+      "category": "toys",
+      "name": "Interactive Learning Tablet",
+      "price": 899,
+      "image": "/toys/learning-tablet.jpg",
+      "description": "Child-safe tablet with ABCs, numbers, and songs",
       "quantity": 1,
-      "userId": "afb9"
+      "userId": "af37"
     }
   ],
   "wishlist": [],
-  "orders": []
+  "orders": [
+    {
+      "id": "82d9",
+      "orderId": "ORD-1753033910158",
+      "userId": "af37",
+      "items": [
+        {
+          "id": "b001",
+          "category": "boys",
+          "name": "Organic Cotton Hoodie - Blue",
+          "price": 599,
+          "image": "/products/swim-trunks.jpg",
+          "description": "Soft organic cotton hoodie with kangaroo pocket",
+          "quantity": 2,
+          "userId": "af37"
+        }
+      ],
+      "subtotal": 1198,
+      "shipping": 99,
+      "totalAmount": 1297,
+      "paymentMethod": "card",
+      "date": "2025-07-20T17:51:50.158Z",
+      "status": "processing"
+    },
+    {
+      "id": "b8c7",
+      "orderId": "ORD-1753034656867",
+      "userId": "af37",
+      "items": [
+        {
+          "id": "b002",
+          "category": "boys",
+          "name": "Striped Polo Set - Navy/White",
+          "price": 449,
+          "image": "/products/striped-polo-set.jpg",
+          "description": "2-piece polo and shorts set for smart casual wear",
+          "quantity": 2,
+          "userId": "af37"
+        }
+      ],
+      "subtotal": 898,
+      "shipping": 99,
+      "totalAmount": 997,
+      "paymentMethod": "card",
+      "date": "2025-07-20T18:04:16.867Z",
+      "status": "processing"
+    },
+    {
+      "id": "cbe8",
+      "orderId": "ORD-1753037118235",
+      "userId": "af37",
+      "items": [
+        {
+          "id": "b001",
+          "category": "boys",
+          "name": "Organic Cotton Hoodie - Blue",
+          "price": 599,
+          "image": "/products/swim-trunks.jpg",
+          "description": "Soft organic cotton hoodie with kangaroo pocket",
+          "quantity": 1,
+          "userId": "af37"
+        }
+      ],
+      "subtotal": 599,
+      "shipping": 99,
+      "totalAmount": 698,
+      "paymentMethod": "card",
+      "date": "2025-07-20T18:45:18.235Z",
+      "status": "processing"
+    },
+    {
+      "id": "953a",
+      "orderId": "ORD-1753070115996",
+      "userId": "af37",
+      "items": [
+        {
+          "id": "b001",
+          "category": "boys",
+          "name": "Organic Cotton Hoodie - Blue",
+          "price": 599,
+          "image": "/products/swim-trunks.jpg",
+          "description": "Soft organic cotton hoodie with kangaroo pocket",
+          "quantity": 3,
+          "userId": "af37"
+        }
+      ],
+      "subtotal": 1797,
+      "shipping": 99,
+      "totalAmount": 1896,
+      "paymentMethod": "card",
+      "date": "2025-07-21T03:55:15.996Z",
+      "status": "processing"
+    },
+    {
+      "id": "2fb0",
+      "orderId": "ORD-1753075802950",
+      "userId": "af37",
+      "items": [
+        {
+          "id": "b002",
+          "category": "boys",
+          "name": "Striped Polo Set - Navy/White",
+          "price": 449,
+          "image": "/products/striped-polo-set.jpg",
+          "description": "2-piece polo and shorts set for smart casual wear",
+          "quantity": 1,
+          "userId": "af37"
+        }
+      ],
+      "subtotal": 449,
+      "shipping": 99,
+      "totalAmount": 548,
+      "paymentMethod": "card",
+      "date": "2025-07-21T05:30:02.950Z",
+      "status": "processing"
+    },
+    {
+      "id": "c55f",
+      "orderId": "ORD-1753076298353",
+      "userId": "af37",
+      "items": [
+        {
+          "id": "b002",
+          "category": "boys",
+          "name": "Striped Polo Set - Navy/White",
+          "price": 449,
+          "image": "/products/striped-polo-set.jpg",
+          "description": "2-piece polo and shorts set for smart casual wear",
+          "quantity": 1,
+          "userId": "af37"
+        },
+        {
+          "id": "b003",
+          "category": "boys",
+          "name": "Denim Jacket with Patches",
+          "price": 799,
+          "image": "/products/denim-jacket.jpg",
+          "description": "Lightweight denim jacket with fun embroidered patches",
+          "quantity": 1,
+          "userId": "af37"
+        },
+        {
+          "id": "b004",
+          "category": "boys",
+          "name": "Cargo Joggers - Olive Green",
+          "price": 499,
+          "image": "/products/cargo-joggers.jpg",
+          "description": "Stylish joggers with multiple pockets",
+          "quantity": 1,
+          "userId": "af37"
+        }
+      ],
+      "subtotal": 1747,
+      "shipping": 99,
+      "totalAmount": 1846,
+      "paymentMethod": "card",
+      "date": "2025-07-21T05:38:18.353Z",
+      "status": "processing"
+    },
+    {
+      "id": "823e",
+      "orderId": "ORD-1753077703258",
+      "userId": "af37",
+      "items": [
+        {
+          "id": "b002",
+          "category": "boys",
+          "name": "Striped Polo Set - Navy/White",
+          "price": 449,
+          "image": "/products/striped-polo-set.jpg",
+          "description": "2-piece polo and shorts set for smart casual wear",
+          "quantity": 13,
+          "userId": "af37"
+        }
+      ],
+      "subtotal": 5837,
+      "shipping": 0,
+      "totalAmount": 5837,
+      "paymentMethod": "card",
+      "date": "2025-07-21T06:01:43.258Z",
+      "status": "processing"
+    }
+  ]
 }

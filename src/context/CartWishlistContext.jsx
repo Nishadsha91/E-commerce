@@ -1,6 +1,8 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from './AuthContext';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const CartWishlistContext = createContext();
 
@@ -27,33 +29,33 @@ export const CartWishlistProvider = ({ children }) => {
       const count = res.data.reduce((sum, item) => sum + (item.quantity || 1), 0);
       setCartCount(count);
     } catch (err) {
-      console.error('Failed to load cart count', err);
+      toast.error('Failed to load cart count');
       setCartCount(0);
     }
   };
 
+
   const addToCart = async (product) => {
     if (!user) {
-      alert('Please login first!');
+      toast.error('Please login first!');
       return;
     }
     try {
       const res = await axios.get(`http://localhost:3000/cart?userId=${user.id}&id=${product.id}`);
       if (res.data.length > 0) {
-        const existing = res.data[0];
-        await axios.patch(`http://localhost:3000/cart/${existing.id}`, {
-          quantity: (existing.quantity || 1) + 1
-        });
-      } else {
-        await axios.post('http://localhost:3000/cart', {
-          ...product,
-          quantity: 1,
-          userId: user.id
-        });
+        toast.error('Product already in cart!');
+        return;
       }
+      await axios.post('http://localhost:3000/cart', {
+        ...product,
+        quantity: 1,
+        userId: user.id
+      });
       loadCartCount(user.id);
+      toast.success('Product added to cart!');
     } catch (err) {
       console.error('Add to cart failed', err);
+      toast.error('Failed to add to cart.');
     }
   };
 
@@ -65,8 +67,9 @@ export const CartWishlistProvider = ({ children }) => {
         axios.delete(`http://localhost:3000/cart/${item.id}`)
       ));
       setCartCount(0);
+      toast.success('Cart cleared!');
     } catch (err) {
-      console.error('Failed to clear cart', err);
+      toast.error('Failed to clear cart');
     }
   };
 
@@ -87,15 +90,19 @@ export const CartWishlistProvider = ({ children }) => {
 
   const addToWishlist = (product) => {
     if (!user) {
-      alert('Please login first!');
+      toast.warning('Please login to use wishlist!');
       return;
     }
+
     let updated;
     if (wishlist.find(item => item.id === product.id)) {
       updated = wishlist.filter(item => item.id !== product.id);
+      toast.info('Removed from wishlist');
     } else {
       updated = [...wishlist, product];
+      toast.success('Added to wishlist!');
     }
+
     setWishlist(updated);
     localStorage.setItem(`wishlist_${user.id}`, JSON.stringify(updated));
     setWishlistCount(updated.length);
@@ -103,24 +110,36 @@ export const CartWishlistProvider = ({ children }) => {
 
   const removeFromWishlist = (id) => {
     if (!user) return;
+
     const updated = wishlist.filter(item => item.id !== id);
     setWishlist(updated);
     localStorage.setItem(`wishlist_${user.id}`, JSON.stringify(updated));
     setWishlistCount(updated.length);
+    toast.info('Removed from wishlist');
   };
 
   const clearWishlist = () => {
     setWishlist([]);
     setWishlistCount(0);
     if (user) localStorage.removeItem(`wishlist_${user.id}`);
+    
   };
 
   return (
-    <CartWishlistContext.Provider value={{
-      wishlist, wishlistCount, addToWishlist, removeFromWishlist,
-      cartCount, addToCart, loadCartCount,
-      clearWishlist, clearCartState, clearCart
-    }}>
+    <CartWishlistContext.Provider
+      value={{
+        wishlist,
+        wishlistCount,
+        addToWishlist,
+        removeFromWishlist,
+        cartCount,
+        addToCart,
+        loadCartCount,
+        clearWishlist,
+        clearCartState,
+        clearCart
+      }}
+    >
       {children}
     </CartWishlistContext.Provider>
   );
