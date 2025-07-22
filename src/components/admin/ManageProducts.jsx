@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Layout from '../components/admin/Layout';
+import Layout from './Layout';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FiEdit, FiTrash2, FiPlus, FiSearch, FiFilter } from 'react-icons/fi';
-import AdminHead from '../components/admin/AdminHead';
+import AdminHead from './AdminHead';
 
 function ManageProducts() {
   const [products, setProducts] = useState([]);
@@ -38,11 +38,12 @@ function ManageProducts() {
   return (
     <Layout>
   
-      <div className="p-2  max-w-7xl mx-auto">
+      <div className="p-4  max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+        
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-800">Product List</h1>
+            <h1 className="text-3xl -mt-1 font-bold text-gray-900 flex items-center">Product List</h1>
             <p className="text-gray-600 mt-1">Manage all your products in one place</p>
           </div>
           <button

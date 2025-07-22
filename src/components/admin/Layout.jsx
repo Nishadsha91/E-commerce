@@ -195,10 +195,11 @@ function Layout({ children }) {
           </div>
         </header>
 
-        {/* Page Content - This will render the child components */}
+       
         <main className="p-6 max-w-7xl mx-auto">
           {children}
         </main>
+        
       </div>
     </div>
   );

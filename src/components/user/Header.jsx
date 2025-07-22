@@ -1,9 +1,10 @@
 import React, { useState, useContext } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { ShoppingCart, Heart, Menu, X, Baby, User } from 'lucide-react';
-import { AuthContext } from '../context/AuthContext';
-import { CartWishlistContext } from '../context/CartWishlistContext';
+import { ShoppingCart, Heart, Menu, X, Baby, User, LogOutIcon } from 'lucide-react';
+
 import { motion ,AnimatePresence} from 'framer-motion';
+import { AuthContext } from '../../context/AuthContext';
+import { CartWishlistContext } from '../../context/CartWishlistContext';
 
 
 export default function Header() {
@@ -23,7 +24,7 @@ export default function Header() {
   return (
     <>
       <header className="bg-white sticky top-0 z-50 shadow-sm border-b border-[#f0f4f8]">
-        {/* Top announcement bar */}          {/* Animated announcement bar */}
+        {/* Top announcement bar */}         
         <motion.div 
           initial={{ backgroundPosition: '0% 50%' }}
           animate={{ backgroundPosition: '100% 50%' }}
@@ -88,7 +89,7 @@ export default function Header() {
           {/* Desktop Navigation */}
           
                     {/* Enhanced Desktop Navigation with glass morphism */}
-          <nav className="absolute left-1/2 transform -translate-x-1/2 hidden lg:flex items-center bg-white/80 backdrop-blur-md rounded-full px-2 py-2 shadow-xl border border-white/20">
+          <nav className="absolute left-1/2 transform -translate-x-1/2 hidden lg:flex items-center bg-white/80 backdrop-blur-md rounded-full px-2 py-2 shadow-md border border-white/20">
             {[
               { path: "/", name: "Home", },
               { path: "/clothes", name: "Clothes",  },
@@ -205,7 +206,7 @@ export default function Header() {
                           whileHover={{ scale: 1.02, x: 4 }}
                           whileTap={{ scale: 0.98 }}
                         >
-                          🚪 Logout
+                          <LogOutIcon className='w-5 h-5'/>Logout
                         </motion.button>
                       </motion.div>
                     )}

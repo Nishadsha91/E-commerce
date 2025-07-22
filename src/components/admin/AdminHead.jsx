@@ -47,28 +47,7 @@ function AdminHead() {
                         </div>
                       </div>
                     </div>
-                    {/* <div className="p-2">
-                      <button 
-                        onClick={() => {
-                          navigate('/admin/profile');
-                          setProfileDropdownOpen(false);
-                        }}
-                        className="w-full flex items-center gap-3 px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 text-left"
-                      >
-                        <User size={16} />
-                        Profile Settings
-                      </button>
-                      <button 
-                        onClick={() => {
-                          navigate('/admin/settings');
-                          setProfileDropdownOpen(false);
-                        }}
-                        className="w-full flex items-center gap-3 px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 text-left"
-                      >
-                        <Settings size={16} />
-                        Account Settings
-                      </button>
-                    </div> */}
+                    
                     <div className="p-2 border-t border-gray-200">
                       <button 
                         onClick={() => {

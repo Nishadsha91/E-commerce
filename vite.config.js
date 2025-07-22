@@ -9,7 +9,8 @@ export default defineConfig({
     server: {
     watch: {
       // ✅ Prevent reload when db.json is modified by JSON Server
-      ignored: ['/db.json'],
+      ignored: ['**/db.json'],
     },
   },
+
 })

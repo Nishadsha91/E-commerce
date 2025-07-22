@@ -3,10 +3,10 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Search, Filter, X, ArrowUp, ArrowDown, Star, Heart, ShoppingCart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import ImageModal from '../components/ImageModal';
+import ImageModal from '../../components/user/ImageModal';
 import { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
-import { CartWishlistContext } from '../context/CartWishlistContext';
+import { AuthContext } from '../../context/AuthContext';
+import { CartWishlistContext } from '../../context/CartWishlistContext';
 import { toast } from 'react-toastify';
 
 

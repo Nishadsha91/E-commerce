@@ -67,7 +67,7 @@ export const CartWishlistProvider = ({ children }) => {
         axios.delete(`http://localhost:3000/cart/${item.id}`)
       ));
       setCartCount(0);
-      toast.success('Cart cleared!');
+      toast.success('Your order placed successfully!');
     } catch (err) {
       toast.error('Failed to clear cart');
     }

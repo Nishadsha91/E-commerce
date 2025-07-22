@@ -3,7 +3,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { CheckCircle, Lock, Shield } from 'lucide-react';
-import { CartWishlistContext } from '../context/CartWishlistContext';
+import { CartWishlistContext } from '../../context/CartWishlistContext';
 import { toast } from 'react-toastify';
 
 export default function Payment() {

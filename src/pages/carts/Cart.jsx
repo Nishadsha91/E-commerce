@@ -2,7 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Trash2, ChevronLeft, ShoppingCart } from 'lucide-react';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
+
 
 function Cart() {
   const { user } = useContext(AuthContext);
@@ -95,7 +96,7 @@ function Cart() {
   if (cart.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="bg-white p-8 rounded-xl shadow-md text-center max-w-md">
+        <div className="bg-white p-8 rounded-xl shadow-xl/30 text-center max-w-md">
           <ShoppingCart className="w-12 h-12 text-gray-400 mx-auto mb-4" />
           <h2 className="text-xl font-semibold text-gray-800 mb-2">Your Cart is Empty</h2>
           <p className="text-gray-600 mb-6">Looks like you haven't added anything to your cart yet</p>

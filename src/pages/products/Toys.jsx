@@ -2,9 +2,10 @@ import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Heart, Star, ChevronRight, Gift, ShoppingCart } from 'lucide-react';
-import { CartWishlistContext } from '../context/CartWishlistContext';
-import ImageModal from '../components/ImageModal';
+
+import ImageModal from '../../components/user/ImageModal';
 import { motion } from 'framer-motion';
+import { CartWishlistContext } from '../../context/CartWishlistContext';
 
 function Toys() {
   const [products, setProducts] = useState([]);

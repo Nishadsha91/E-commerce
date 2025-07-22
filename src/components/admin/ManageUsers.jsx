@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import Layout from '../components/admin/Layout';
+import Layout from './Layout';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FiEdit, FiTrash2, FiUserX, FiUserCheck, FiSearch, FiFilter } from 'react-icons/fi';
+import UserDetailsModal from '../reusable/UserDetailsModal';
+
+
+
 
 export default function ManageUsers() {
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState('All');
   const [statusFilter, setStatusFilter] = useState('All');
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [userOrders, setUserOrders] = useState([]);
+  const [isLoadingOrders, setIsLoadingOrders] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,7 +28,31 @@ export default function ManageUsers() {
       .catch((error) => console.error("Error fetching users", error));
   };
 
-  const handleDelete = (id) => {
+  const fetchUserOrders = (userId) => {
+    setIsLoadingOrders(true);
+    axios.get(`http://localhost:3000/orders?userId=${userId}`)
+      .then((res) => {
+        setUserOrders(res.data);
+        setIsLoadingOrders(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching orders", error);
+        setIsLoadingOrders(false);
+      });
+  };
+
+  const handleUserClick = (user) => {
+    setSelectedUser(user);
+    fetchUserOrders(user.id);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedUser(null);
+    setUserOrders([]);
+  };
+
+  const handleDelete = (id, e) => {
+    e.stopPropagation();
     if (window.confirm("Are you sure you want to delete this user?")) {
       axios.delete(`http://localhost:3000/users/${id}`)
         .then(() => {
@@ -31,7 +62,8 @@ export default function ManageUsers() {
     }
   };
 
-  const handleBlockUnblock = (user) => {
+  const handleBlockUnblock = (user, e) => {
+    e.stopPropagation();
     const updatedStatus = user.status === 'Active' ? 'Inactive' : 'Active';
     axios.patch(`http://localhost:3000/users/${user.id}`, { status: updatedStatus })
       .then(() => {
@@ -59,15 +91,15 @@ export default function ManageUsers() {
     <Layout>
       <div className="p-2 max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-800">User Management</h1>
-            <p className="text-gray-600 mt-2">Manage all registered users</p>
+            <h1 className="text-3xl -mt-2 font-bold text-gray-900 flex items-center">User Management</h1>
+            <p className="text-gray-600 mt-1">Manage all registered users</p>
           </div>
         </div>
 
         {/* Filters */}
-        <div className="bg-white p-4 rounded-xl  border border-gray-100 mb-4 ">
+        <div className="bg-white p-4 rounded-xl border border-gray-100 mb-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-1">Search</label>
@@ -132,7 +164,11 @@ export default function ManageUsers() {
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {filteredUsers.map(user => (
-                  <tr key={user.id} className="hover:bg-gray-50 transition-colors">
+                  <tr 
+                    key={user.id} 
+                    className="hover:bg-gray-50 transition-colors cursor-pointer"
+                    onClick={() => handleUserClick(user)}
+                  >
                     <td className="py-4 px-6">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 font-medium">
@@ -160,14 +196,17 @@ export default function ManageUsers() {
                     <td className="py-4 px-6 text-right">
                       <div className="flex justify-end gap-2">
                         <button
-                          onClick={() => navigate(`/admin/edituser/${user.id}`)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/admin/edituser/${user.id}`);
+                          }}
                           className="p-2 text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
                           title="Edit"
                         >
                           <FiEdit size={16} />
                         </button>
                         <button
-                          onClick={() => handleBlockUnblock(user)}
+                          onClick={(e) => handleBlockUnblock(user, e)}
                           className={`p-2 rounded-lg transition-colors ${
                             user.status === 'Active' 
                               ? 'text-yellow-600 hover:bg-yellow-50' 
@@ -178,7 +217,7 @@ export default function ManageUsers() {
                           {user.status === 'Active' ? <FiUserX size={16} /> : <FiUserCheck size={16} />}
                         </button>
                         <button
-                          onClick={() => handleDelete(user.id)}
+                          onClick={(e) => handleDelete(user.id, e)}
                           className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                           title="Delete"
                         >
@@ -199,6 +238,15 @@ export default function ManageUsers() {
             </table>
           </div>
         </div>
+
+        {/* User Details Modal */}
+       {selectedUser && (
+        <UserDetailsModal 
+          user={selectedUser} 
+          orders={userOrders} 
+          onClose={handleCloseModal} 
+        />
+      )}
       </div>
     </Layout>
   );

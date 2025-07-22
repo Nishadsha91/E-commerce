@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Layout from '../components/admin/Layout';
+import Layout from './Layout';
 import { toast } from 'react-toastify';
 
 export default function EditUser() {

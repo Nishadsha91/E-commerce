@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {
-  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  PieChart, Pie, Cell, Legend
-} from 'recharts';
-import {
-  Package, ShoppingCart, Users, TrendingUp,
-  IndianRupee, Eye
-} from 'lucide-react';
-import Layout from '../components/admin/Layout';
+import {AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend} from 'recharts';
+import {Package, ShoppingCart, Users, TrendingUp,IndianRupee, Eye,} from 'lucide-react';
+import Layout from './Layout';
 
 const COLORS = ['#8B5CF6', '#06B6D4', '#10B981', '#F59E0B', '#EF4444', '#EC4899'];
 
@@ -22,55 +16,56 @@ function AdminDashboard() {
   const [recentActivity, setRecentActivity] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [ordersRes, usersRes, productsRes] = await Promise.all([
-          axios.get('http://localhost:3000/orders'),
-          axios.get('http://localhost:3000/users'),
-          axios.get('http://localhost:3000/products')
-        ]);
+  const fetchData = async () => {
 
-        const orders = ordersRes.data;
-        const dataByDate = {};
-        const categoryCount = {};
-        let total = 0;
+    try {
+      const [ordersTotal, usersTotal, productsTotal] = await Promise.all([
+        axios.get('http://localhost:3000/orders'),
+        axios.get('http://localhost:3000/users'),
+        axios.get('http://localhost:3000/products')
+      ]);
 
-        orders.forEach(order => {
-          const date = new Date(order.date).toLocaleDateString();
-          dataByDate[date] = (dataByDate[date] || 0) + order.total;
-          total += order.total;
+      const orders = ordersTotal.data || [];
+      const users = usersTotal.data || [];
+      const products = productsTotal.data || [];
+      const dataByDate = {};
+      const categoryCount = {};
+      let total = 0;
 
+      orders.forEach(order => {
+        const date = new Date(order.date).toLocaleDateString();
+        const orderTotal = order.totalAmount|| 0;
+        dataByDate[date] = (dataByDate[date] || 0) + orderTotal;
+        total += orderTotal;
+        if (order.items && Array.isArray(order.items)) {
           order.items.forEach(item => {
             categoryCount[item.category] = (categoryCount[item.category] || 0) + item.quantity;
           });
-        });
+        }
+      });
 
-        setSalesData(Object.entries(dataByDate).map(([date, total]) => ({ date, total })));
-        setCategoryData(Object.entries(categoryCount).map(([category, value]) => ({
-          name: category.charAt(0).toUpperCase() + category.slice(1),
-          value
-        })));
-        setTotalRevenue(total);
-        setOrders(orders);
-        setUsers(usersRes.data);
-        setProducts(productsRes.data);
-
-        // Recent activity
-        setRecentActivity(orders.slice(-4).reverse().map((order, index) => ({
-          id: index + 1,
-          type: 'order',
-          message: `New order from ${order.user || 'Customer'}`,
-          time: new Date(order.date).toLocaleTimeString(),
-          amount: `₹${order.total}`
-        })));
-
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
+      setSalesData(Object.entries(dataByDate).map(([date, total]) => ({ date, total })));
+      setCategoryData(Object.entries(categoryCount).map(([category, value]) => ({
+        name: category.charAt(0).toUpperCase() + category.slice(1),
+        value
+      })));
+      setTotalRevenue(total);
+      setOrders(orders);
+      setUsers(users);
+      setProducts(products);
+      setRecentActivity(orders.slice(-4).reverse().map((order, index) => ({
+        id: index + 1,
+        type: 'order',
+        message: `New order from ${order.user || 'Customer'}`,
+        time: new Date(order.date).toLocaleTimeString(),
+        amount: `₹${order.totalAmount || 0}`
+      })));
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+    }
+  };
+  fetchData();
+}, []);
 
   const stats = {
     totalRevenue,
@@ -110,12 +105,14 @@ function AdminDashboard() {
             <div className="bg-white rounded-2xl p-6 shadow-xl/20 border border-gray-100 hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between">
                 <div>
+                
                   <p className="text-sm font-medium text-gray-600">Total Orders</p>
                   <p className="text-3xl font-bold text-gray-900 mt-1">{stats.totalOrders.toLocaleString()}</p>
                   <p className="text-sm text-blue-600 mt-1 flex items-center gap-1">
                     <TrendingUp size={14} />
                     +{stats.ordersGrowth}% from last month
                   </p>
+               
                 </div>
                 <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
                   <ShoppingCart size={24} className="text-white" />
@@ -286,7 +283,7 @@ function AdminDashboard() {
                 <div className="flex items-center justify-between p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl">
                   <div>
                     <p className="text-sm text-gray-600">Avg Order Value</p>
-                    <p className="text-xl font-bold text-gray-900">₹{orders.length > 0 ? Math.round(totalRevenue / orders.length) : 0}</p>
+                    <p className="text-xl font-bold text-gray-900">₹{orders.length > 0 ? Math.round(totalRevenue/ orders.length) : 0}</p>
                   </div>
                   <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                     <TrendingUp size={16} className="text-white" />

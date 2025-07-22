@@ -2,9 +2,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ShoppingCart, Heart, ChevronLeft, Star, Shield, Truck } from 'lucide-react';
-import { CartWishlistContext } from '../context/CartWishlistContext';
-import { AuthContext } from '../context/AuthContext';
+
+
 import { toast } from 'react-toastify';
+import { CartWishlistContext } from '../../context/CartWishlistContext';
+import { AuthContext } from '../../context/AuthContext';
 
 function ProductDetails() {
   const { id } = useParams();
@@ -93,6 +95,7 @@ function ProductDetails() {
         {/* Product Section */}
         <div className="bg-white rounded-xl shadow-md overflow-hidden">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6">
+            
             {/* Image Gallery */}
             <div>
               <div className="relative h-155 rounded-lg overflow-hidden mb-4">
@@ -113,7 +116,6 @@ function ProductDetails() {
             {/* Product Info */}
             <div>
               <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
-              
               <div className="flex items-center mb-4">
                 <div className="flex">
                   {[1, 2, 3, 4, 5].map((star) => (
@@ -137,7 +139,6 @@ function ProductDetails() {
                   </span>
                 )}
               </div>
-
               <p className="text-gray-700 mb-6">{product.description || 'No description available.'}</p>
 
               {/* Product Meta */}
@@ -151,9 +152,6 @@ function ProductDetails() {
                   <span className="text-sm text-gray-600">1-year warranty</span>
                 </div>
               </div>
-
-              
-              
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-3">
@@ -170,8 +168,7 @@ function ProductDetails() {
                     wishlist.find(item => item.id === product.id) 
                       ? 'bg-pink-100 text-pink-700 border border-pink-300'
                       : 'bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300'
-                  }`}
-                >
+                  }`}>
                   <Heart 
                     className={`w-5 h-5 mr-2 ${
                       wishlist.find(item => item.id === product.id) ? 'fill-pink-500 stroke-pink-500' : 'stroke-gray-500'
@@ -195,9 +192,6 @@ function ProductDetails() {
             </div>
           </div>
         </div>
-
-        {/* Related Products (optional) */}
-        
       </div>
     </div>
   );

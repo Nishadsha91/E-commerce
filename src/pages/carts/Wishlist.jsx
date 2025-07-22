@@ -1,9 +1,11 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Trash2, Heart, ShoppingCart, ArrowLeft } from 'lucide-react';
-import { CartWishlistContext } from '../context/CartWishlistContext';
-import { AuthContext } from '../context/AuthContext';
+
+
 import { toast } from 'react-toastify';
+import { CartWishlistContext } from '../../context/CartWishlistContext';
+import { AuthContext } from '../../context/AuthContext';
 
 function Wishlist() {
   const { wishlist, removeFromWishlist, addToCart } = useContext(CartWishlistContext);
