@@ -42,7 +42,7 @@ function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Carousel */}
-      <section className="relative w-full h-80 md:h-[550px] overflow-hidden">
+      <section className="relative w-full h-[70vh] md:h-[80vh] overflow-hidden">
         {slides.map((slide, index) => (
           <div
             key={index}
