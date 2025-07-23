@@ -219,7 +219,7 @@ export default function Header() {
   <motion.div whileHover={{ scale: 1.05 }}>
     <NavLink
       to="/login"
-      className="relative px-5 py-2 rounded-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white text-sm font-medium shadow-lg overflow-hidden group"
+      className="relative px-4 sm:px-5 py-2 rounded-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white text-sm font-medium shadow-lg overflow-hidden group"
     >
        <motion.div
         className="absolute  bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300"
@@ -227,7 +227,6 @@ export default function Header() {
       <span className="relative z-10">Login</span>
     </NavLink>
   </motion.div>
-  
 </div>
 
             )}
